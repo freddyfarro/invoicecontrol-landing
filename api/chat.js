@@ -85,29 +85,42 @@ module.exports = async function handler(req, res) {
     parts: [{ text: String(m.content).slice(0, 2000) }],
   }));
 
-  try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
-    const resp = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-        contents,
-        generationConfig: { maxOutputTokens: 400 },
-      }),
-    });
+  const MODELS = ['gemini-2.5-flash-lite-preview-06-17', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+  const body = JSON.stringify({
+    system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+    contents,
+    generationConfig: { maxOutputTokens: 400 },
+  });
 
-    if (!resp.ok) {
-      const err = await resp.text();
-      console.error('[chat] Gemini error:', err);
-      return res.status(200).json({ reply: 'Ups, algo falló. Inténtalo en un momento.' });
+  for (const model of MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`;
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+      });
+
+      if (!resp.ok) {
+        const err = await resp.text();
+        console.error(`[chat] Gemini error (${model}) status=${resp.status}:`, err.slice(0, 500));
+        // Si es 404 (modelo no encontrado) o 400, probar el siguiente modelo
+        if (resp.status === 404 || resp.status === 400) continue;
+        // Para otros errores (401 key inválida, 429 rate limit) salir directamente
+        return res.status(200).json({ reply: 'Ups, algo falló. Inténtalo en un momento.' });
+      }
+
+      const data = await resp.json();
+      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No pude generar una respuesta.';
+      return res.status(200).json({ reply });
+
+    } catch (err) {
+      console.error(`[chat] Fetch error (${model}):`, err.message);
+      if (model === MODELS[MODELS.length - 1]) {
+        return res.status(200).json({ reply: 'Error de conexión. Inténtalo en un momento.' });
+      }
     }
-
-    const data = await resp.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No pude generar una respuesta.';
-    return res.status(200).json({ reply });
-  } catch (err) {
-    console.error('[chat] Fetch error:', err.message);
-    return res.status(200).json({ reply: 'Error de conexión. Inténtalo en un momento.' });
   }
+
+  return res.status(200).json({ reply: 'Ups, algo falló. Inténtalo en un momento.' });
 };

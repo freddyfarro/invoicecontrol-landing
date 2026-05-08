@@ -3,7 +3,7 @@
 // Env vars required: RESEND_API_KEY
 // Optional: set FROM_EMAIL env var to override sender address.
 
-const FROM_EMAIL = process.env.FROM_EMAIL || 'InvoiceControl <hola@invoicecontrol.io>';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'InvoiceControl <onboarding@resend.dev>';
 const REPLY_TO = 'hola@invoicecontrol.io';
 
 function generateDiscountCode(email) {
