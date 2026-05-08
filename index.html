@@ -511,10 +511,10 @@
             <h3 class="text-xl font-bold mb-1">Pro</h3>
             <p class="text-indigo-200 text-sm">Para autónomos activos</p>
             <div class="mt-5 flex items-end gap-1">
-              <span class="text-4xl font-extrabold">€9.99</span>
+              <span id="price-pro" class="text-4xl font-extrabold">€9.99</span>
               <span class="text-indigo-200 mb-1">/mes</span>
             </div>
-            <div class="text-indigo-300 text-xs mt-1">o €7.99/mes si pagas anual · ahorra 20%</div>
+            <div id="price-pro-annual" class="text-indigo-300 text-xs mt-1">o €7.99/mes si pagas anual · ahorra 20%</div>
           </div>
           <ul class="space-y-3 mb-8 text-sm">
             <li class="flex items-start gap-2.5 text-indigo-100"><svg class="w-5 h-5 text-emerald-300 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span><strong class="text-white">100 créditos IA</strong> al mes</span></li>
@@ -535,10 +535,10 @@
             <h3 class="text-xl font-bold text-gray-900 mb-1">Empresas</h3>
             <p class="text-sm text-gray-500">Para equipos y pymes</p>
             <div class="mt-5 flex items-end gap-1">
-              <span class="text-4xl font-extrabold text-gray-900">€29.99</span>
+              <span id="price-emp" class="text-4xl font-extrabold text-gray-900">€29.99</span>
               <span class="text-gray-400 mb-1">/mes</span>
             </div>
-            <div class="text-gray-400 text-xs mt-1">o €24.99/mes anual · ahorra 17%</div>
+            <div id="price-emp-annual" class="text-gray-400 text-xs mt-1">o €24.99/mes anual · ahorra 17%</div>
           </div>
           <ul class="space-y-3 mb-8 text-sm">
             <li class="flex items-start gap-2.5 text-gray-700"><svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span><strong>Créditos IA ilimitados</strong></span></li>
@@ -811,6 +811,29 @@
   </div>
 
   <script>
+    // ── Currency detection
+    const EUROZONE = new Set(['AT','BE','CY','EE','FI','FR','DE','GR','IE','IT','LV','LT','LU','MT','NL','PT','SK','SI','ES','AD','MC','SM','VA']);
+    const CURRENCIES = {
+      EUR: { sym: '€', pro: '9.99', proAnn: '7.99', emp: '29.99', empAnn: '24.99' },
+      USD: { sym: '$', pro: '10.99', proAnn: '8.99', emp: '32.99', empAnn: '26.99' },
+      GBP: { sym: '£', pro: '8.99', proAnn: '7.49', emp: '25.99', empAnn: '21.99' },
+    };
+    let geoData = {};
+    const geoPromise = fetch('https://ipapi.co/json/').then(r => r.ok ? r.json() : {}).catch(() => ({})).then(geo => { geoData = geo; return geo; });
+
+    function updatePrices(c) {
+      document.getElementById('price-pro').textContent = c.sym + c.pro;
+      document.getElementById('price-pro-annual').textContent = `o ${c.sym}${c.proAnn}/mes si pagas anual · ahorra 20%`;
+      document.getElementById('price-emp').textContent = c.sym + c.emp;
+      document.getElementById('price-emp-annual').textContent = `o ${c.sym}${c.empAnn}/mes anual · ahorra 17%`;
+    }
+
+    geoPromise.then(geo => {
+      const code = geo.country_code || '';
+      const currency = EUROZONE.has(code) ? 'EUR' : code === 'GB' ? 'GBP' : 'USD';
+      if (currency !== 'EUR') updatePrices(CURRENCIES[currency]);
+    });
+
     // ── Navbar shadow on scroll
     window.addEventListener('scroll', () => {
       document.getElementById('navbar').classList.toggle('nav-shadow', window.scrollY > 10);
@@ -884,27 +907,22 @@
 
       const facturas = document.getElementById('facturasSelect').value;
 
-      fetch('https://ipapi.co/json/')
-        .then(r => r.ok ? r.json() : {})
-        .catch(() => ({}))
-        .then(geo => {
-          const pais = geo.country_name || 'Desconocido';
-          const ciudad = geo.city || '';
-          fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              access_key: '4d2aed09-30b4-490e-834a-218890101653',
-              subject: '🚀 Nuevo early adopter — InvoiceControl',
-              email,
-              facturas,
-              tipo: selectedTipo || 'no indicado',
-              plan: selectedPlan,
-              pais,
-              ciudad,
-            })
-          });
+      geoPromise.then(() => {
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: '4d2aed09-30b4-490e-834a-218890101653',
+            subject: '🚀 Nuevo early adopter — InvoiceControl',
+            email,
+            facturas,
+            tipo: selectedTipo || 'no indicado',
+            plan: selectedPlan,
+            pais: geoData.country_name || 'Desconocido',
+            ciudad: geoData.city || '',
+          })
         });
+      });
 
       document.getElementById('modalForm').classList.add('hidden');
       document.getElementById('modalThankYou').classList.remove('hidden');
