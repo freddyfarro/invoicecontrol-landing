@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -1034,11 +1034,7 @@
       return 'en';
     }
 
-    // Init: saved lang or wait for geo
-    const savedLang = localStorage.getItem('ic_lang');
-    if (savedLang && T[savedLang]) { currentLang = savedLang; applyTranslations(); }
-
-    // ── Currency detection
+    // ── Currency detection (declaraciones antes de cualquier llamada a applyTranslations)
     const EUROZONE = new Set(['AT','BE','CY','EE','FI','FR','DE','GR','IE','IT','LV','LT','LU','MT','NL','PT','SK','SI','ES','AD','MC','SM','VA']);
     const CURRENCIES = {
       EUR: { sym: '€', pro: '9.99', proAnn: '7.99', emp: '29.99', empAnn: '24.99' },
@@ -1046,6 +1042,11 @@
       GBP: { sym: '£', pro: '8.99', proAnn: '7.49', emp: '25.99', empAnn: '21.99' },
     };
     let geoData = {};
+
+    // Init: saved lang or wait for geo
+    const savedLang = localStorage.getItem('ic_lang');
+    if (savedLang && T[savedLang]) { currentLang = savedLang; applyTranslations(); }
+
     const geoPromise = fetch('https://ipapi.co/json/').then(r => r.ok ? r.json() : {}).catch(() => ({})).then(geo => { geoData = geo; return geo; });
 
     function updatePrices(c) {
