@@ -1065,7 +1065,12 @@
             pais: geoData.country_name || 'Desconocido',
             ciudad: geoData.city || '',
           })
-        });
+        }).catch(() => {});
+        fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, lang: currentLang }),
+        }).catch(() => {});
       });
 
       document.getElementById('modalForm').classList.add('hidden');
