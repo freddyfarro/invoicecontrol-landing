@@ -884,14 +884,18 @@
 
       const facturas = document.getElementById('facturasSelect').value;
 
-      // ── Send to your form backend here (Formspree, etc.)
-      // fetch('https://formspree.io/f/YOUR_ID', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, facturas, tipo: selectedTipo, plan: selectedPlan })
-      // });
-
-      console.log('Early adopter:', { email, facturas, tipo: selectedTipo, plan: selectedPlan });
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: '4d2aed09-30b4-490e-834a-218890101653',
+          subject: '🚀 Nuevo early adopter — InvoiceControl',
+          email,
+          facturas,
+          tipo: selectedTipo || 'no indicado',
+          plan: selectedPlan,
+        })
+      });
 
       document.getElementById('modalForm').classList.add('hidden');
       document.getElementById('modalThankYou').classList.remove('hidden');
