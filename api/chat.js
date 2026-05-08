@@ -1,6 +1,6 @@
 // Vercel Serverless Function — POST /api/chat
 // Powers the Aria sales chatbot on the InvoiceControl landing page.
-// Env vars required: ANTHROPIC_API_KEY
+// Env vars required: GEMINI_API_KEY
 
 const SYSTEM_PROMPT = `Eres Aria, la asistente virtual de InvoiceControl. Tu trabajo es doble: resolver dudas con honestidad y ayudar a convertir visitantes en usuarios de la waitlist.
 
@@ -69,7 +69,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     return res.status(200).json({ reply: 'Lo siento, el asistente no está disponible en este momento. Puedes escribirnos a hola@invoicecontrol.io' });
   }
 
@@ -79,35 +79,32 @@ module.exports = async function handler(req, res) {
   }
 
   // Keep last 10 messages to control token cost
-  const trimmed = messages.slice(-10).map((m) => ({
-    role: m.role === 'user' ? 'user' : 'assistant',
-    content: String(m.content).slice(0, 2000),
+  // Gemini uses "model" instead of "assistant"
+  const contents = messages.slice(-10).map((m) => ({
+    role: m.role === 'user' ? 'user' : 'model',
+    parts: [{ text: String(m.content).slice(0, 2000) }],
   }));
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+    const resp = await fetch(url, {
       method: 'POST',
-      headers: {
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 400,
-        system: SYSTEM_PROMPT,
-        messages: trimmed,
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents,
+        generationConfig: { maxOutputTokens: 400 },
       }),
     });
 
     if (!resp.ok) {
       const err = await resp.text();
-      console.error('[chat] Anthropic error:', err);
+      console.error('[chat] Gemini error:', err);
       return res.status(200).json({ reply: 'Ups, algo falló. Inténtalo en un momento.' });
     }
 
     const data = await resp.json();
-    const reply = data.content?.[0]?.text || 'No pude generar una respuesta.';
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No pude generar una respuesta.';
     return res.status(200).json({ reply });
   } catch (err) {
     console.error('[chat] Fetch error:', err.message);
