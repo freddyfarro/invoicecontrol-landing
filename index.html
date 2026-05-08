@@ -133,7 +133,10 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
           </div>
-          <span class="font-bold text-lg text-gray-900">InvoiceControl</span>
+          <div class="flex flex-col leading-tight">
+            <span class="font-bold text-lg text-gray-900">InvoiceControl</span>
+            <span data-i18n="nav.tagline" class="text-[10px] text-indigo-500 font-semibold tracking-wide uppercase">Tus facturas, sin el caos</span>
+          </div>
         </div>
 
         <div class="hidden md:flex items-center gap-8">
@@ -912,7 +915,7 @@
     // ── Translations
     const T = {
       es: {
-        nav:{f:"Características",h:"Cómo funciona",p:"Precios",l:"Entrar",cta:"Comienza Gratis"},
+        nav:{f:"Características",h:"Cómo funciona",p:"Precios",l:"Entrar",cta:"Comienza Gratis",tagline:"Tus facturas, sin el caos"},
         hero:{badge:"IA para autónomos y pymes · RGPD compliant",h1a:"Recupera tus",h1b:"domingos.",h1c:"La IA gestiona",h1d:"tus facturas.",sub:'Conecta Gmail u Outlook y InvoiceControl extrae, organiza y exporta todas tus facturas de gastos automáticamente. <strong class="text-white">Listo para tu gestor en minutos, no en horas.</strong>',cta1:"Comienza Gratis",cta2:"Ver cómo funciona",stat1:"Facturas procesadas",stat2:"Precisión IA",stat3:"Ahorradas/trimestre"},
         social:{label:"Confiado por autónomos y pymes de toda España"},
         prob:{badge:"El problema",title:'¿Reconoces esta <span class="text-red-500">pesadilla trimestral</span>?',sub:"Cada tres meses, miles de autónomos pierden días enteros buscando facturas enterradas en emails y carpetas.",c1t:"12+ horas perdidas cada trimestre",c1p:"Buscando facturas en Gmail, en carpetas, en la bandeja de entrada… todo de forma manual mientras tu trabajo real espera.",c1b:"≈ 48 horas al año = 6 días laborables",c2t:"Facturas perdidas = multas de Hacienda",c2p:"Una factura extraviada puede costarte una deducción de IVA o, peor, una sanción tributaria por no poder justificar un gasto.",c2b:"Multas desde 150€ hasta el 150% de la cuota",c3t:"Excel manual, errores garantizados",c3p:"Copiar datos a mano de cada factura al Excel es lento y propenso a errores que tu gestor tendrá que corregir (y cobrarte).",c3b:"1 de cada 5 errores pasa desapercibido"},
@@ -928,7 +931,7 @@
         mock:{title:"Mis Facturas",subtitle:"247 facturas · Mayo 2025",export:"Exportar Excel",filter:"Filtrar",totalExp:"Total gastos",vat:"IVA deducible",vatCalc:"21% calculado",aiProc:"Procesadas IA",complete:"100% completo",processing:"Procesando 3 facturas nuevas de Gmail…"}
       },
       en: {
-        nav:{f:"Features",h:"How it works",p:"Pricing",l:"Log in",cta:"Start Free"},
+        nav:{f:"Features",h:"How it works",p:"Pricing",l:"Log in",cta:"Start Free",tagline:"Your invoices on autopilot"},
         hero:{badge:"AI for freelancers & SMEs · GDPR compliant",h1a:"Reclaim your",h1b:"weekends.",h1c:"AI manages",h1d:"your invoices.",sub:'Connect Gmail or Outlook and InvoiceControl automatically extracts, organises and exports all your expense invoices. <strong class="text-white">Ready for your accountant in minutes, not hours.</strong>',cta1:"Start Free",cta2:"See how it works",stat1:"Invoices processed",stat2:"AI accuracy",stat3:"Saved per quarter"},
         social:{label:"Trusted by freelancers and SMEs across Europe"},
         prob:{badge:"The problem",title:'Do you recognise this <span class="text-red-500">quarterly nightmare</span>?',sub:"Every three months, thousands of freelancers lose entire days searching for invoices buried in emails and folders.",c1t:"12+ hours lost every quarter",c1p:"Searching invoices in Gmail, folders, your inbox… all manually while your real work waits.",c1b:"≈ 48 hours per year = 6 working days",c2t:"Lost invoices = tax penalties",c2p:"A misplaced invoice can cost you a VAT deduction or, worse, a tax penalty for failing to justify an expense.",c2b:"Fines from €150 up to 150% of the tax due",c3t:"Manual spreadsheets, guaranteed errors",c3p:"Copying invoice data into Excel by hand is slow and error-prone — your accountant will need to fix them (and charge you).",c3b:"1 in 5 errors goes unnoticed"},
@@ -944,7 +947,7 @@
         mock:{title:"My Invoices",subtitle:"247 invoices · May 2025",export:"Export Excel",filter:"Filter",totalExp:"Total expenses",vat:"Deductible VAT",vatCalc:"21% calculated",aiProc:"AI processed",complete:"100% complete",processing:"Processing 3 new invoices from Gmail…"}
       },
       pt: {
-        nav:{f:"Funcionalidades",h:"Como funciona",p:"Preços",l:"Entrar",cta:"Começar Grátis"},
+        nav:{f:"Funcionalidades",h:"Como funciona",p:"Preços",l:"Entrar",cta:"Começar Grátis",tagline:"Chega de caos com faturas"},
         hero:{badge:"IA para autónomos e PME · RGPD compliant",h1a:"Recupere os seus",h1b:"fins de semana.",h1c:"A IA gere as",h1d:"suas faturas.",sub:'Conecte o Gmail ou Outlook e o InvoiceControl extrai, organiza e exporta automaticamente todas as suas faturas de despesas. <strong class="text-white">Pronto para o seu contabilista em minutos, não em horas.</strong>',cta1:"Começar Grátis",cta2:"Ver como funciona",stat1:"Faturas processadas",stat2:"Precisão da IA",stat3:"Poupadas/trimestre"},
         social:{label:"Com a confiança de autónomos e PME em toda a Europa"},
         prob:{badge:"O problema",title:'Reconhece este <span class="text-red-500">pesadelo trimestral</span>?',sub:"A cada três meses, milhares de autónomos perdem dias inteiros à procura de faturas enterradas em emails e pastas.",c1t:"12+ horas perdidas por trimestre",c1p:"À procura de faturas no Gmail, em pastas, na caixa de entrada… tudo manualmente enquanto o seu trabalho real espera.",c1b:"≈ 48 horas por ano = 6 dias úteis",c2t:"Faturas perdidas = multas fiscais",c2p:"Uma fatura extraviada pode custar uma dedução de IVA ou, pior, uma sanção fiscal por não poder justificar uma despesa.",c2b:"Multas a partir de 150€",c3t:"Excel manual, erros garantidos",c3p:"Copiar dados manualmente de cada fatura para o Excel é lento e sujeito a erros que o seu contabilista terá de corrigir.",c3b:"1 em cada 5 erros passa despercebido"},
@@ -960,7 +963,7 @@
         mock:{title:"Minhas Faturas",subtitle:"247 faturas · Maio 2025",export:"Exportar Excel",filter:"Filtrar",totalExp:"Total despesas",vat:"IVA dedutível",vatCalc:"21% calculado",aiProc:"Processadas IA",complete:"100% completo",processing:"Processando 3 novas faturas do Gmail…"}
       },
       fr: {
-        nav:{f:"Fonctionnalités",h:"Comment ça marche",p:"Tarifs",l:"Connexion",cta:"Commencer Gratuitement"},
+        nav:{f:"Fonctionnalités",h:"Comment ça marche",p:"Tarifs",l:"Connexion",cta:"Commencer Gratuitement",tagline:"Vos factures, c'est géré"},
         hero:{badge:"IA pour freelances et PME · Conforme RGPD",h1a:"Retrouvez vos",h1b:"week-ends.",h1c:"L'IA gère",h1d:"vos factures.",sub:'Connectez Gmail ou Outlook et InvoiceControl extrait, organise et exporte automatiquement toutes vos factures de dépenses. <strong class="text-white">Prêt pour votre comptable en minutes, pas en heures.</strong>',cta1:"Commencer Gratuitement",cta2:"Voir comment ça marche",stat1:"Factures traitées",stat2:"Précision IA",stat3:"Économisées/trimestre"},
         social:{label:"Approuvé par des freelances et PME dans toute l'Europe"},
         prob:{badge:"Le problème",title:'Reconnaissez-vous ce <span class="text-red-500">cauchemar trimestriel</span> ?',sub:"Chaque trimestre, des milliers de freelances perdent des journées entières à chercher des factures enfouies dans leurs emails et dossiers.",c1t:"12+ heures perdues chaque trimestre",c1p:"À chercher des factures dans Gmail, dans des dossiers… tout manuellement pendant que votre vrai travail attend.",c1b:"≈ 48 heures par an = 6 jours ouvrables",c2t:"Factures perdues = pénalités fiscales",c2p:"Une facture égarée peut vous coûter une déduction de TVA ou, pire, une sanction fiscale pour ne pas pouvoir justifier une dépense.",c2b:"Amendes à partir de 150€",c3t:"Tableurs manuels, erreurs garanties",c3p:"Copier les données de chaque facture dans Excel à la main est lent et source d'erreurs que votre comptable devra corriger.",c3b:"1 erreur sur 5 passe inaperçue"},
