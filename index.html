@@ -855,8 +855,8 @@
   <div id="chatWidget" class="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
 
     <!-- Chat Window -->
-    <div id="chatWindow" class="hidden flex-col bg-white rounded-2xl overflow-hidden"
-         style="width:360px;max-height:520px;box-shadow:0 20px 60px rgba(0,0,0,0.15);border:1px solid #e2e8f0;">
+    <div id="chatWindow" class="flex-col bg-white rounded-2xl overflow-hidden"
+         style="display:none;width:360px;max-height:520px;box-shadow:0 20px 60px rgba(0,0,0,0.15);border:1px solid #e2e8f0;">
 
       <!-- Header -->
       <div class="flex items-center gap-3 px-4 py-3 flex-shrink-0" style="background:linear-gradient(135deg,#4338ca,#4f46e5);">
@@ -1199,8 +1199,8 @@
       const btn       = document.getElementById('chatToggleBtn');
 
       if (chatOpen) {
-        win.classList.remove('hidden');
-        win.classList.add('flex', 'chat-open');
+        win.style.display = 'flex';
+        win.classList.add('chat-open');
         iconOpen.classList.add('hidden');
         iconClose.classList.remove('hidden');
         badge.classList.add('hidden');
@@ -1209,8 +1209,8 @@
         if (!chatInitialized) { chatInitialized = true; initChatGreeting(); }
         setTimeout(() => document.getElementById('chatInput').focus(), 250);
       } else {
-        win.classList.add('hidden');
-        win.classList.remove('flex', 'chat-open');
+        win.style.display = 'none';
+        win.classList.remove('chat-open');
         iconOpen.classList.remove('hidden');
         iconClose.classList.add('hidden');
       }
