@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Ya estás dentro! — InvoiceControl</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-hero { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 35%, #4c1d95 70%, #1e1b4b 100%); }
+    .gradient-text { background: linear-gradient(135deg, #a5b4fc, #e879f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+    .pop { animation: pop 0.5s ease forwards; }
+  </style>
+</head>
+<body class="gradient-hero min-h-screen flex items-center justify-center px-4">
+
+  <div class="max-w-lg w-full text-center">
+
+    <!-- Icono animado -->
+    <div class="pop w-20 h-20 bg-emerald-400 rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl">
+      <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+
+    <!-- Título -->
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4">
+      ¡Ya estás <span class="gradient-text">dentro!</span>
+    </h1>
+    <p class="text-indigo-200 text-lg mb-8 leading-relaxed">
+      Hemos recibido tu registro. En unos minutos recibirás un email con tu
+      <strong class="text-white">código de descuento del 50% vitalicio</strong>.
+    </p>
+
+    <!-- Beneficios -->
+    <div class="bg-white/10 backdrop-blur rounded-2xl p-6 mb-8 text-left space-y-3">
+      <div class="flex items-center gap-3 text-indigo-100">
+        <span class="text-emerald-400 font-bold text-lg">✓</span>
+        <span>50% de descuento vitalicio en tu plan</span>
+      </div>
+      <div class="flex items-center gap-3 text-indigo-100">
+        <span class="text-emerald-400 font-bold text-lg">✓</span>
+        <span>100 créditos IA extra de regalo al lanzar</span>
+      </div>
+      <div class="flex items-center gap-3 text-indigo-100">
+        <span class="text-emerald-400 font-bold text-lg">✓</span>
+        <span>Acceso prioritario antes que nadie</span>
+      </div>
+    </div>
+
+    <!-- CTA volver -->
+    <a href="/" class="inline-flex items-center gap-2 text-indigo-300 hover:text-white transition-colors text-sm font-medium">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Volver a la página principal
+    </a>
+
+    <p class="text-indigo-400 text-xs mt-8">InvoiceControl · hola@invoicecontrol.io · España</p>
+  </div>
+
+</body>
+</html>

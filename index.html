@@ -1165,8 +1165,8 @@
         }).catch(() => {});
       });
 
-      document.getElementById('modalForm').classList.add('hidden');
-      document.getElementById('modalThankYou').classList.remove('hidden');
+      // Redirigir a la thank you page (necesario para conversiones de Google Ads)
+      setTimeout(() => { window.location.href = '/gracias'; }, 400);
     }
 
     // ── Smooth scroll
