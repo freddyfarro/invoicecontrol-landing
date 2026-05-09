@@ -1183,7 +1183,15 @@
         fetch('/api/waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, lang: currentLang }),
+          body: JSON.stringify({
+            email,
+            lang: currentLang,
+            tipo: selectedTipo || '',
+            facturas,
+            plan: selectedPlan || '',
+            pais: geoData.country_name || '',
+            ciudad: geoData.city || '',
+          }),
         }).catch(() => {});
       });
 
