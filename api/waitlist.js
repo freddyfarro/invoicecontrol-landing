@@ -347,7 +347,9 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid email' });
   }
 
-  const namePart = email.split('@')[0].replace(/[._+\-]/g, ' ').split(' ')[0];
+  // Usar nombre del formulario si viene, si no derivar del email como fallback
+  const rawName = (body.name || '').trim();
+  const namePart = rawName || email.split('@')[0].replace(/[._+\-]/g, ' ').split(' ')[0];
   const name = namePart.charAt(0).toUpperCase() + namePart.slice(1).toLowerCase();
   const validLang = ['es', 'en', 'pt', 'fr'].includes(lang) ? lang : 'es';
   const code = generateDiscountCode(email);
@@ -369,6 +371,31 @@ module.exports = async function handler(req, res) {
       codigo: code,
     }),
   }).catch(() => {});
+
+  // Aviso al founder (fire-and-forget)
+  if (process.env.RESEND_API_KEY) {
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: FROM_EMAIL,
+        to: [REPLY_TO],
+        subject: `🚀 Nuevo registro: ${name} (${email})`,
+        html: `<p><strong>Nombre:</strong> ${name}</p>
+               <p><strong>Email:</strong> ${email}</p>
+               <p><strong>Tipo:</strong> ${body.tipo || '—'}</p>
+               <p><strong>Facturas/mes:</strong> ${body.facturas || '—'}</p>
+               <p><strong>Plan:</strong> ${body.plan || '—'}</p>
+               <p><strong>País:</strong> ${body.pais || '—'}</p>
+               <p><strong>Ciudad:</strong> ${body.ciudad || '—'}</p>
+               <p><strong>Código:</strong> ${code}</p>
+               <p><strong>Idioma:</strong> ${validLang}</p>`,
+      }),
+    }).catch(() => {});
+  }
 
   if (!process.env.RESEND_API_KEY) {
     console.warn('[waitlist] RESEND_API_KEY not set — skipping email send');
