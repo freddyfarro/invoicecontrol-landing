@@ -1020,6 +1020,7 @@
       localStorage.setItem('ic_lang', lang);
       applyTranslations();
       document.getElementById('langMenu').classList.add('hidden');
+      if (typeof updateCookieBannerLang === 'function') updateCookieBannerLang(lang);
     }
 
     function toggleLangMenu() { document.getElementById('langMenu').classList.toggle('hidden'); }
@@ -1379,17 +1380,26 @@
         },
       };
 
-      function showBanner() {
-        const lang = (typeof currentLang !== 'undefined' ? currentLang : null)
-          || localStorage.getItem('ic_lang')
-          || (navigator.language || 'es').slice(0, 2);
+      function applyBannerTexts(lang) {
         const t = texts[lang] || texts.es;
         document.getElementById('cookieText').textContent = t.text;
         document.getElementById('cookieLink').textContent = t.link;
         document.getElementById('cookieAccept').textContent = t.accept;
         document.getElementById('cookieEssential').textContent = t.essential;
+      }
+
+      function showBanner() {
+        const lang = (typeof currentLang !== 'undefined' ? currentLang : null)
+          || localStorage.getItem('ic_lang')
+          || (navigator.language || 'es').slice(0, 2);
+        applyBannerTexts(lang);
         document.getElementById('cookieBanner').style.display = 'block';
       }
+
+      window.updateCookieBannerLang = function(lang) {
+        const banner = document.getElementById('cookieBanner');
+        if (banner && banner.style.display !== 'none') applyBannerTexts(lang);
+      };
 
       window.cookieConsent = function(choice) {
         localStorage.setItem(COOKIE_KEY, choice);
