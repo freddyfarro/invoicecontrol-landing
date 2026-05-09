@@ -4,7 +4,7 @@
 // Optional: set FROM_EMAIL env var to override sender address.
 
 const FROM_EMAIL = process.env.FROM_EMAIL || 'InvoiceControl <onboarding@resend.dev>';
-const REPLY_TO = 'hola@invoicecontrol.io';
+const REPLY_TO = 'freddyfarro@gmail.com';
 
 function generateDiscountCode(email) {
   let h = 0x811c9dc5;
@@ -41,7 +41,7 @@ const LANGS = {
     oauth: 'OAuth 2.0',
     enc: 'Cifrado AES-256',
     eu: 'Servidores en la UE',
-    footerText: 'InvoiceControl · hola@invoicecontrol.io · España',
+    footerText: 'InvoiceControl · freddyfarro@gmail.com · España',
     unsubNote: 'Recibiste este email por apuntarte en la lista de espera de InvoiceControl.',
     unsubscribe: 'Darte de baja',
   },
@@ -70,7 +70,7 @@ const LANGS = {
     oauth: 'OAuth 2.0',
     enc: 'AES-256 encryption',
     eu: 'EU servers',
-    footerText: 'InvoiceControl · hola@invoicecontrol.io · Spain',
+    footerText: 'InvoiceControl · freddyfarro@gmail.com · Spain',
     unsubNote: 'You received this email because you joined the InvoiceControl waitlist.',
     unsubscribe: 'Unsubscribe',
   },
@@ -99,7 +99,7 @@ const LANGS = {
     oauth: 'OAuth 2.0',
     enc: 'Cifrado AES-256',
     eu: 'Servidores na UE',
-    footerText: 'InvoiceControl · hola@invoicecontrol.io · Espanha',
+    footerText: 'InvoiceControl · freddyfarro@gmail.com · Espanha',
     unsubNote: 'Recebeste este email por te teres registado na lista de espera do InvoiceControl.',
     unsubscribe: 'Cancelar subscrição',
   },
@@ -128,7 +128,7 @@ const LANGS = {
     oauth: 'OAuth 2.0',
     enc: 'Chiffrement AES-256',
     eu: 'Serveurs dans l\'UE',
-    footerText: 'InvoiceControl · hola@invoicecontrol.io · Espagne',
+    footerText: 'InvoiceControl · freddyfarro@gmail.com · Espagne',
     unsubNote: 'Vous avez reçu cet email car vous vous êtes inscrit à la liste d\'attente InvoiceControl.',
     unsubscribe: 'Se désabonner',
   },
@@ -389,3 +389,4 @@ module.exports = async function handler(req, res) {
 
   return res.status(200).json({ ok: true, code });
 };
+ 
