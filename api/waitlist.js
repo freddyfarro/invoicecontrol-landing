@@ -387,5 +387,22 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true, code, note: 'email_error' });
   }
 
+  // Guardar en Google Sheets (fire-and-forget)
+  fetch('https://script.google.com/macros/s/AKfycbwP8_V6iIX3AJhOmzhYcI-jMsofmyjQay2KqdeGK--M2ufRZRV9E-kqApY1dGKLZDObnw/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fecha: new Date().toISOString(),
+      email,
+      nombre: name,
+      tipo: body.tipo || '',
+      facturas: body.facturas || '',
+      plan: body.plan || '',
+      pais: body.pais || '',
+      ciudad: body.ciudad || '',
+      codigo: code,
+    }),
+  }).catch(() => {});
+
   return res.status(200).json({ ok: true, code });
 };
