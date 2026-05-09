@@ -1325,5 +1325,79 @@
       if (!chatOpen) document.getElementById('chatBadge').classList.remove('hidden');
     }, 4000);
   </script>
+
+
+  <!-- ═══════════════════════════ COOKIE BANNER ═══════════════════════════ -->
+  <div id="cookieBanner" style="display:none" class="fixed bottom-0 left-0 right-0 z-[900] px-4 pb-4 sm:px-6">
+    <div class="max-w-4xl mx-auto bg-white border border-gray-100 rounded-2xl shadow-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div class="flex items-start gap-3 flex-1 min-w-0">
+        <div class="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+          <svg class="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div>
+          <p id="cookieText" class="text-sm text-gray-700 leading-relaxed"></p>
+          <a id="cookieLink" href="#" class="text-xs text-indigo-600 hover:text-indigo-700 font-medium mt-0.5 inline-block"></a>
+        </div>
+      </div>
+      <div class="flex gap-2 flex-shrink-0 sm:flex-col lg:flex-row">
+        <button id="cookieAccept" onclick="cookieConsent('all')" class="flex-1 sm:flex-none px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"></button>
+        <button id="cookieEssential" onclick="cookieConsent('essential')" class="flex-1 sm:flex-none px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors"></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const COOKIE_KEY = 'ic_cookie_consent';
+      const saved = localStorage.getItem(COOKIE_KEY);
+      if (saved) return;
+
+      const texts = {
+        es: {
+          text: 'Usamos almacenamiento local para recordar tu idioma y preferencias, y detectamos tu país por IP para mostrarte los precios en tu moneda. No usamos cookies de publicidad.',
+          link: 'Política de Cookies',
+          accept: 'Aceptar todo',
+          essential: 'Solo esenciales',
+        },
+        en: {
+          text: 'We use local storage to remember your language and preferences, and detect your country by IP to show prices in your currency. No advertising cookies.',
+          link: 'Cookie Policy',
+          accept: 'Accept all',
+          essential: 'Essentials only',
+        },
+        pt: {
+          text: 'Usamos armazenamento local para lembrar o seu idioma e preferências, e detetamos o seu país por IP para mostrar os preços na sua moeda. Sem cookies publicitários.',
+          link: 'Política de Cookies',
+          accept: 'Aceitar tudo',
+          essential: 'Só essenciais',
+        },
+        fr: {
+          text: 'Nous utilisons le stockage local pour mémoriser votre langue et vos préférences, et nous détectons votre pays par IP pour afficher les prix dans votre devise. Aucun cookie publicitaire.',
+          link: 'Politique des cookies',
+          accept: 'Tout accepter',
+          essential: 'Essentiels uniquement',
+        },
+      };
+
+      function showBanner() {
+        const lang = (typeof currentLang !== 'undefined' ? currentLang : null)
+          || localStorage.getItem('ic_lang')
+          || (navigator.language || 'es').slice(0, 2);
+        const t = texts[lang] || texts.es;
+        document.getElementById('cookieText').textContent = t.text;
+        document.getElementById('cookieLink').textContent = t.link;
+        document.getElementById('cookieAccept').textContent = t.accept;
+        document.getElementById('cookieEssential').textContent = t.essential;
+        document.getElementById('cookieBanner').style.display = 'block';
+      }
+
+      window.cookieConsent = function(choice) {
+        localStorage.setItem(COOKIE_KEY, choice);
+        document.getElementById('cookieBanner').style.display = 'none';
+      };
+
+      setTimeout(showBanner, 800);
+    })();
+  </script>
 </body>
 </html>
