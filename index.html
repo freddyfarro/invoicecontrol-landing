@@ -10,6 +10,24 @@
   <meta property="og:description" content="Conecta Gmail u Outlook. La IA extrae, clasifica y exporta tus facturas automáticamente. Sin Excel manual. Sin estrés trimestral." />
   <meta property="og:type" content="website" />
 
+  <!-- ═══ Google Ads / Analytics — Consent Mode v2 (RGPD) ═══ -->
+  <script>
+    // Inicializar con todo denegado por defecto (obligatorio EEE/RGPD)
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage:            'denied',
+      ad_user_data:          'denied',
+      ad_personalization:    'denied',
+      analytics_storage:     'denied',
+      wait_for_update:       500,
+    });
+    gtag('js', new Date());
+    gtag('config', 'AW-18151501993');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18151501993"></script>
+  <!-- ════════════════════════════════════════════════════════ -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -1355,6 +1373,14 @@
     (function() {
       const COOKIE_KEY = 'ic_cookie_consent';
       const saved = localStorage.getItem(COOKIE_KEY);
+      // Restaurar consentimiento previo para Google
+      if (saved && typeof gtag === 'function') {
+        const granted = saved === 'all' ? 'granted' : 'denied';
+        gtag('consent', 'update', {
+          ad_storage: granted, ad_user_data: granted,
+          ad_personalization: granted, analytics_storage: granted,
+        });
+      }
       if (saved) return;
 
       const texts = {
@@ -1408,6 +1434,24 @@
       window.cookieConsent = function(choice) {
         localStorage.setItem(COOKIE_KEY, choice);
         document.getElementById('cookieBanner').style.display = 'none';
+        // Actualizar Google Consent Mode v2
+        if (typeof gtag === 'function') {
+          if (choice === 'all') {
+            gtag('consent', 'update', {
+              ad_storage:         'granted',
+              ad_user_data:       'granted',
+              ad_personalization: 'granted',
+              analytics_storage:  'granted',
+            });
+          } else {
+            gtag('consent', 'update', {
+              ad_storage:         'denied',
+              ad_user_data:       'denied',
+              ad_personalization: 'denied',
+              analytics_storage:  'denied',
+            });
+          }
+        }
       };
 
       setTimeout(showBanner, 800);
