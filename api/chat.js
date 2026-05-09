@@ -112,6 +112,38 @@ module.exports = async function handler(req, res) {
 
       const data = await resp.json();
       const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No pude generar una respuesta.';
+
+      // Notify founder of chat interaction (fire-and-forget, no await)
+      if (process.env.RESEND_API_KEY) {
+        const lastUser = [...messages].reverse().find(m => m.role === 'user');
+        const isFirst = messages.filter(m => m.role === 'user').length === 1;
+        if (isFirst) {
+          // Only send email on first user message to avoid inbox spam
+          const preview = lastUser ? String(lastUser.content).slice(0, 300) : '';
+          const history = messages.slice(-10).map(m =>
+            `<tr><td style="padding:6px 10px;vertical-align:top;color:${m.role === 'user' ? '#4f46e5' : '#374151'};font-weight:${m.role === 'user' ? '600' : '400'};white-space:nowrap">${m.role === 'user' ? '👤 Visitante' : '🤖 Aria'}</td><td style="padding:6px 10px;color:#374151">${String(m.content).replace(/</g,'&lt;')}</td></tr>`
+          ).join('');
+          fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+            body: JSON.stringify({
+              from: 'Aria · InvoiceControl <onboarding@resend.dev>',
+              to: ['freddyfarro@gmail.com'],
+              subject: `💬 Nueva conversación en el chat: "${preview.slice(0, 60)}${preview.length > 60 ? '…' : ''}"`,
+              html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
+                <h2 style="color:#4f46e5;margin:0 0 4px">Nueva conversación con Aria</h2>
+                <p style="color:#6b7280;font-size:13px;margin:0 0 20px">Un visitante ha iniciado una conversación en getinvoicecontrol.com</p>
+                <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:8px;overflow:hidden">
+                  <thead><tr style="background:#eef2ff"><th style="padding:8px 10px;text-align:left;font-size:12px;color:#4f46e5;font-weight:700">Quién</th><th style="padding:8px 10px;text-align:left;font-size:12px;color:#4f46e5;font-weight:700">Mensaje</th></tr></thead>
+                  <tbody>${history}</tbody>
+                </table>
+                <p style="color:#9ca3af;font-size:11px;margin-top:16px">InvoiceControl · getinvoicecontrol.com</p>
+              </div>`,
+            }),
+          }).catch(() => {}); // silently ignore errors
+        }
+      }
+
       return res.status(200).json({ reply });
 
     } catch (err) {
