@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>¡Ya estás dentro! — InvoiceControl</title>
+  <title>InvoiceControl</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,47 +20,92 @@
 <body class="gradient-hero min-h-screen flex items-center justify-center px-4">
 
   <div class="max-w-lg w-full text-center">
-
-    <!-- Icono animado -->
     <div class="pop w-20 h-20 bg-emerald-400 rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl">
       <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
       </svg>
     </div>
 
-    <!-- Título -->
     <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4">
-      ¡Ya estás <span class="gradient-text">dentro!</span>
+      <span id="t-title"></span> <span class="gradient-text" id="t-title2"></span>
     </h1>
-    <p class="text-indigo-200 text-lg mb-8 leading-relaxed">
-      Hemos recibido tu registro. En unos minutos recibirás un email con tu
-      <strong class="text-white">código de descuento del 50% vitalicio</strong>.
-    </p>
+    <p class="text-indigo-200 text-lg mb-8 leading-relaxed" id="t-sub"></p>
 
-    <!-- Beneficios -->
     <div class="bg-white/10 backdrop-blur rounded-2xl p-6 mb-8 text-left space-y-3">
       <div class="flex items-center gap-3 text-indigo-100">
         <span class="text-emerald-400 font-bold text-lg">✓</span>
-        <span>50% de descuento vitalicio en tu plan</span>
+        <span id="t-b1"></span>
       </div>
       <div class="flex items-center gap-3 text-indigo-100">
         <span class="text-emerald-400 font-bold text-lg">✓</span>
-        <span>100 créditos IA extra de regalo al lanzar</span>
+        <span id="t-b2"></span>
       </div>
       <div class="flex items-center gap-3 text-indigo-100">
         <span class="text-emerald-400 font-bold text-lg">✓</span>
-        <span>Acceso prioritario antes que nadie</span>
+        <span id="t-b3"></span>
       </div>
     </div>
 
-    <!-- CTA volver -->
     <a href="/" class="inline-flex items-center gap-2 text-indigo-300 hover:text-white transition-colors text-sm font-medium">
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-      Volver a la página principal
+      <span id="t-back"></span>
     </a>
 
     <p class="text-indigo-400 text-xs mt-8">InvoiceControl · hola@invoicecontrol.io · España</p>
   </div>
+
+  <script>
+    const T = {
+      es: {
+        title: '¡Ya estás', title2: 'dentro!',
+        sub: 'Hemos recibido tu registro. En unos minutos recibirás un email con tu <strong class="text-white">código de descuento del 50% vitalicio</strong>.',
+        b1: '50% de descuento vitalicio en tu plan',
+        b2: '100 créditos IA extra de regalo al lanzar',
+        b3: 'Acceso prioritario antes que nadie',
+        back: 'Volver a la página principal',
+        htmlTitle: '¡Ya estás dentro! — InvoiceControl',
+      },
+      en: {
+        title: "You're", title2: 'in!',
+        sub: "We've received your registration. In a few minutes you'll get an email with your <strong class=\"text-white\">lifetime 50% discount code</strong>.",
+        b1: 'Lifetime 50% discount on your plan',
+        b2: '100 bonus AI credits at launch',
+        b3: 'Priority access before anyone else',
+        back: 'Back to the main page',
+        htmlTitle: "You're in! — InvoiceControl",
+      },
+      pt: {
+        title: 'Já estás', title2: 'dentro!',
+        sub: 'Recebemos o teu registo. Em poucos minutos receberás um email com o teu <strong class="text-white">código de desconto vitalício de 50%</strong>.',
+        b1: '50% de desconto vitalício no teu plano',
+        b2: '100 créditos IA extra de oferta no lançamento',
+        b3: 'Acesso prioritário antes de todos',
+        back: 'Voltar à página principal',
+        htmlTitle: 'Já estás dentro! — InvoiceControl',
+      },
+      fr: {
+        title: 'Vous êtes', title2: 'inscrit !',
+        sub: 'Nous avons bien reçu votre inscription. Dans quelques minutes vous recevrez un email avec votre <strong class="text-white">code de réduction à vie de 50%</strong>.',
+        b1: '50% de réduction à vie sur votre forfait',
+        b2: '100 crédits IA offerts au lancement',
+        b3: 'Accès prioritaire avant tout le monde',
+        back: 'Retour à la page principale',
+        htmlTitle: 'Vous êtes inscrit ! — InvoiceControl',
+      },
+    };
+
+    const lang = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('ic_lang') || 'es';
+    const t = T[lang] || T.es;
+
+    document.title = t.htmlTitle;
+    document.getElementById('t-title').textContent = t.title;
+    document.getElementById('t-title2').textContent = t.title2;
+    document.getElementById('t-sub').innerHTML = t.sub;
+    document.getElementById('t-b1').textContent = t.b1;
+    document.getElementById('t-b2').textContent = t.b2;
+    document.getElementById('t-b3').textContent = t.b3;
+    document.getElementById('t-back').textContent = t.back;
+  </script>
 
 </body>
 </html>
