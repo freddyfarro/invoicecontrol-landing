@@ -128,7 +128,7 @@ module.exports = async function handler(req, res) {
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
             body: JSON.stringify({
               from: 'Aria · InvoiceControl <onboarding@resend.dev>',
-              to: ['freddyfarro@gmail.com'],
+              to: ['info@getinvoicecontrol.com'],
               subject: `💬 Nueva conversación en el chat: "${preview.slice(0, 60)}${preview.length > 60 ? '…' : ''}"`,
               html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
                 <h2 style="color:#4f46e5;margin:0 0 4px">Nueva conversación con Aria</h2>
