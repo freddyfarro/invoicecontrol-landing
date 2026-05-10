@@ -156,10 +156,19 @@
       document.getElementById('errorMsg').classList.add('hidden');
 
       try {
-        const res = await fetch('/api/contact', {
+        const SUBJECTS = { pregunta:'Pregunta general', soporte:'Soporte técnico', empresa:'Plan para empresas', prensa:'Prensa / medios', otro:'Otro' };
+        const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, subject, message })
+          body: JSON.stringify({
+            access_key: '4d2aed09-30b4-490e-834a-218890101653',
+            subject: `📩 Contacto [${SUBJECTS[subject] || subject}] — ${name}`,
+            name,
+            email,
+            asunto: SUBJECTS[subject] || subject,
+            message,
+            from_name: 'InvoiceControl Contacto',
+          })
         });
 
         if (!res.ok) throw new Error('Error');
