@@ -3,6 +3,7 @@
     { "source": "/gracias", "destination": "/gracias.html" },
     { "source": "/privacidad", "destination": "/privacidad.html" },
     { "source": "/cookies", "destination": "/cookies.html" },
-    { "source": "/terminos", "destination": "/terminos.html" }
+    { "source": "/terminos", "destination": "/terminos.html" },
+    { "source": "/contacto", "destination": "/contacto.html" }
   ]
 }
