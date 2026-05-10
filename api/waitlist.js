@@ -355,22 +355,24 @@ module.exports = async function handler(req, res) {
   const code = generateDiscountCode(email);
   const t = LANGS[validLang];
 
-  // Guardar en Google Sheets (fire-and-forget) — siempre, independiente del email
-  fetch('https://script.google.com/macros/s/AKfycbwP8_V6iIX3AJhOmzhYcI-jMsofmyjQay2KqdeGK--M2ufRZRV9E-kqApY1dGKLZDObnw/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      fecha: new Date().toISOString(),
-      email,
-      nombre: name,
-      tipo: body.tipo || '',
-      facturas: body.facturas || '',
-      plan: body.plan || '',
-      pais: body.pais || '',
-      ciudad: body.ciudad || '',
-      codigo: code,
-    }),
-  }).catch(() => {});
+  // Guardar en Google Sheets — awaited para que Vercel no lo cancele
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbwP8_V6iIX3AJhOmzhYcI-jMsofmyjQay2KqdeGK--M2ufRZRV9E-kqApY1dGKLZDObnw/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fecha: new Date().toISOString(),
+        email,
+        nombre: name,
+        tipo: body.tipo || '',
+        facturas: body.facturas || '',
+        plan: body.plan || '',
+        pais: body.pais || '',
+        ciudad: body.ciudad || '',
+        codigo: code,
+      }),
+    });
+  } catch (e) { console.error('[waitlist] Sheets error:', e.message); }
 
   // Aviso al founder (fire-and-forget)
   if (process.env.RESEND_API_KEY) {
