@@ -1389,6 +1389,7 @@
 
 
   <!-- ═══════════════════════════ COOKIE BANNER ═══════════════════════════ -->
+  <!-- ═══════════════════════════ COOKIE BANNER ═══════════════════════════ -->
   <div id="cookieBanner" style="display:none" class="fixed bottom-0 left-0 right-0 z-[900] px-4 pb-4 sm:px-6">
     <div class="max-w-4xl mx-auto bg-white border border-gray-100 rounded-2xl shadow-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
       <div class="flex items-start gap-3 flex-1 min-w-0">
@@ -1411,7 +1412,6 @@
     (function() {
       const COOKIE_KEY = 'ic_cookie_consent';
       const saved = localStorage.getItem(COOKIE_KEY);
-      // Restaurar consentimiento previo para Google
       if (saved && typeof gtag === 'function') {
         const granted = saved === 'all' ? 'granted' : 'denied';
         gtag('consent', 'update', {
@@ -1472,7 +1472,6 @@
       window.cookieConsent = function(choice) {
         localStorage.setItem(COOKIE_KEY, choice);
         document.getElementById('cookieBanner').style.display = 'none';
-        // Actualizar Google Consent Mode v2
         if (typeof gtag === 'function') {
           if (choice === 'all') {
             gtag('consent', 'update', {
