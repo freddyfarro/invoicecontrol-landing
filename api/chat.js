@@ -20,7 +20,7 @@ Cómo funciona:
 - Gratis: €0/mes — 15 créditos IA al mes, Gmail y Outlook, exportar PDF, dashboard básico (sin Excel ni ZIP)
 - Pro: €9.99/mes (o €7.99/mes en pago anual, ahorra 20%) — 100 créditos IA al mes, Gmail + Outlook + IMAP, exportar Excel y ZIP, captura con cámara, 1 GB almacenamiento, soporte prioritario por email. ESTE ES EL MÁS POPULAR.
 - Empresas: €29.99/mes (o €24.99/mes anual) — créditos IA ilimitados, hasta 5 usuarios, todo lo del Pro, 10 GB almacenamiento, acceso API, soporte telefónico prioritario
-- Planes personalizados disponibles para más de 5 usuarios (contactar: hola@invoicecontrol.io)
+- Planes personalizados disponibles para más de 5 usuarios (contactar: info@getinvoicecontrol.com)
 
 Oferta especial actual: Los Miembros Fundadores (waitlist ahora) obtienen 50% de descuento VITALICIO en su plan + 100 créditos IA extra el día del lanzamiento. Es decir, el Pro quedaría en €4.99/mes para siempre.
 
@@ -70,7 +70,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   if (!process.env.GEMINI_API_KEY) {
-    return res.status(200).json({ reply: 'Lo siento, el asistente no está disponible en este momento. Puedes escribirnos a hola@invoicecontrol.io' });
+    return res.status(200).json({ reply: 'Lo siento, el asistente no está disponible en este momento. Puedes escribirnos a info@getinvoicecontrol.com' });
   }
 
   const { messages = [] } = req.body || {};
